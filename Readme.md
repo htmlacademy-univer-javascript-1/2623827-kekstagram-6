@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Павел Гришко](https://up.htmlacademy.ru/univer-js1/6/user/2623827).
-* Наставник: `Неизвестно`.
+* Наставник: `Владимир Вавщик`.
 
 ---
 
@@ -22,7 +22,7 @@ _`.editorconfig`, `.eslintrc`, `.gitattributes`, `.gitignore`, `package-lock.jso
 
 Откройте репозиторий и нажмите кнопку «Fork» в правом верхнем углу. Репозиторий из Академии будет скопирован в ваш аккаунт.
 
-<img width="769" alt="" src="https://user-images.githubusercontent.com/10909/35275222-1d624452-0050-11e8-8aca-06d2832724ce.png">
+<img width="769" alt="" src=" ">
 
 Получится вот так:
 
