@@ -1,5 +1,5 @@
 import { createRandomIdFromRangeGenerator, getRandomInteger } from './utils.js';
-import { descriptions, commentsList, names } from './const.js';
+import { descriptions, commentsList, names } from './data.js';
 
 const createRandomIdMsg = createRandomIdFromRangeGenerator(1, 1000);
 const createRandomId = createRandomIdFromRangeGenerator(1, 25);
@@ -27,8 +27,6 @@ const getImageDescription = () => ({
 
 const createPhotos = (count) =>
   Array.from({ length: count }, getImageDescription);
-
-export { createPhotos };
 
 import { renderPictures } from './pictures.js';
 
