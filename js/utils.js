@@ -1,17 +1,24 @@
-const getRandomInteger = (start, end) => {
-  const lower = Math.ceil(Math.min(start, end));
-  const upper = Math.floor(Math.max(start, end));
+const getRandomInteger = (a, b) => {
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const createRandomIdFromRangeGenerator = (min, max) => {
+  const previousValues = [];
 
-function getPhotoId() {
-  let id = 0;
-  return () => ++id;
-}
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
 
-const getRandomLikes = () => Math.floor(Math.random() * 186) + 15;
-
-export { getRandomInteger, getRandomArrayElement, getPhotoId, getRandomLikes };
+export { getRandomInteger, createRandomIdFromRangeGenerator };
