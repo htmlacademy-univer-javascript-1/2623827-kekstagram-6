@@ -1,17 +1,51 @@
-const getRandomInteger = (start, end) => {
-  const lower = Math.ceil(Math.min(start, end));
-  const upper = Math.floor(Math.max(start, end));
+const getRandomInteger = (a, b) => {
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const createRandomIdFromRangeGenerator = (min, max) => {
+  const previousValues = [];
 
-function getPhotoId() {
-  let id = 0;
-  return () => ++id;
-}
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
 
-const getRandomLikes = () => Math.floor(Math.random() * 186) + 15;
+import { descriptions, commentsList, names } from './data.js';
+const createRandomIdMsg = createRandomIdFromRangeGenerator(1, 1000);
+const createRandomId = createRandomIdFromRangeGenerator(1, 25);
+const createRandomUrl = createRandomIdFromRangeGenerator(1, 25);
 
-export { getRandomInteger, getRandomArrayElement, getPhotoId, getRandomLikes };
+const getComments = () => {
+  const randomNameIndex = getRandomInteger(0, names.length - 1);
+  const randomeMassageIndex = getRandomInteger(0, commentsList.length -1);
+
+  return {
+    id: createRandomIdMsg(),
+    avatar: `mg/avatar-${getRandomInteger(1, 6)}.svg`,
+    message: commentsList[randomeMassageIndex],
+    name: names[randomNameIndex],
+  };
+};
+const getImageDescription = () => ({
+  id: createRandomId(),
+  url: `photos/${createRandomUrl()}.jpg`,
+  description: descriptions[getRandomInteger(0, descriptions.length - 1)],
+  likes: getRandomInteger(15, 200),
+  comments: Array.from({ length: getRandomInteger(0, 30) }, getComments)
+});
+
+const createPhotos = (count) =>
+  Array.from({ length: count }, getImageDescription);
+
+export { createPhotos };
