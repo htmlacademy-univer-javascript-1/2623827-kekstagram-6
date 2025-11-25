@@ -1,35 +1,38 @@
+import { createRandomIdFromRangeGenerator, getRandomInteger } from './utils.js';
 import { descriptions, commentsList, names } from './data.js';
-import { getRandomInteger, getRandomArrayElement, getPhotoId, getRandomLikes } from './utils.js';
 
-const createPhotoId = getPhotoId();
+const createRandomIdMsg = createRandomIdFromRangeGenerator(1, 1000);
+const createRandomId = createRandomIdFromRangeGenerator(1, 25);
+const createRandomUrl = createRandomIdFromRangeGenerator(1, 25);
 
-const getPhotoUrl = (id) => `photos/${id}.jpg`;
+const getComments = () => {
+  const randomNameIndex = getRandomInteger(0, names.length - 1);
+  const randomeMassageIndex = getRandomInteger(0, commentsList.length -1);
 
-const getPhotoDescription = () => getRandomArrayElement(descriptions);
+  return {
+    id: createRandomIdMsg(),
+    avatar: `mg/avatar-${getRandomInteger(1, 6)}.svg`,
+    message: commentsList[randomeMassageIndex],
+    name: names[randomNameIndex],
+  };
+};
 
-const getPhotoComment = () => getRandomArrayElement(commentsList);
-
-const getCommentAvatar = () => `img/avatar-${getRandomInteger(1, 6)}.svg`;
-
-const getCommentName = () => getRandomArrayElement(names);
-
-const createComment = () => ({
-  id: getRandomInteger(1, 25),
-  avatar: getCommentAvatar(),
-  message: getPhotoComment(),
-  name: getCommentName()
+const getImageDescription = () => ({
+  id: createRandomId(),
+  url: `photos/${createRandomUrl()}.jpg`,
+  description: descriptions[getRandomInteger(0, descriptions.length - 1)],
+  likes: getRandomInteger(15, 200),
+  comments: Array.from({ length: getRandomInteger(0, 30) }, getComments)
 });
 
-const createPhoto = () => ({
-  id: createPhotoId(),
-  url: getPhotoUrl(createPhotoId()),
-  description: getPhotoDescription(),
-  likes: getRandomLikes(),
-  comments: Array.from({ length: getRandomInteger(0, 30) }, createComment)
-});
+const createPhotos = (count) =>
+  Array.from({ length: count }, getImageDescription);
 
-const generatePhotos = () => Array.from({ length: 25 }, createPhoto);
+import { renderPictures } from './pictures.js';
 
-const photos = generatePhotos();
+function init() {
+  const photos = createPhotos(25);
+  renderPictures(photos);
+}
 
-export { photos };
+init();
