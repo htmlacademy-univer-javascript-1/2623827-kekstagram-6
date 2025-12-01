@@ -1,4 +1,4 @@
-import { openBigPicture } from './fullsize.js';
+import { openBigPicture } from './bigpictures.js';
 
 export const renderPictures = (photos) => {
   const template = document
