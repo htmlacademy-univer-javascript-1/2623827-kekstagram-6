@@ -1,4 +1,7 @@
-import { isEscapeKey } from './utils.js';
+
+import { isEscapeKey } from './util.js';
+import { scaleReset } from './scale.js';
+import { resetEffects, initSlider, resetSlider } from './effects.js';
 
 const COMMENT_MAXLENGTH = 140;
 const HASHTAGS_MAXCOUNT = 5;
@@ -61,12 +64,16 @@ const openForm = () => {
     document.addEventListener('keydown', onDocumentKeydown);
     bodyElement.classList.add('modal-open');
     uploadCancelButtonElement.addEventListener('click', closeForm);
+    initSlider();
   });
 };
 
 function closeForm() {
   uploadFormElement.reset();
   pristine.reset();
+  scaleReset();
+  resetEffects();
+  resetSlider();
   uploadOverlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -90,5 +97,3 @@ uploadHashtagElement.addEventListener('keydown', () => {
     pristine.reset();
   }
 });
-
-export { openForm };
