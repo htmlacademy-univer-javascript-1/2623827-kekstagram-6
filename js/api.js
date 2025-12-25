@@ -12,7 +12,7 @@ const getData = async () => {
   }
 };
 const getPhotos = async () => {
-  const photos = await getData(DATA_URL);
+  const photos = await getData(API_URL);
   return photos;
 };
 const sendData = async (data) => {
