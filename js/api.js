@@ -1,37 +1,32 @@
-const REQUEST_TIMEOUT = 10000;
+const API_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
 
-const getBaseUrl = () => document.querySelector('meta[name="baseUrl"]').content;
-
-const buildUrl = (baseUrl, path) => `${baseUrl.replace(/\/$/, '')}${path}`;
-
-const request = (method, url, body = null) =>
-  new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = REQUEST_TIMEOUT;
-
-    xhr.addEventListener('load', () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-        return;
-      }
-      reject(new Error(`Ошибка ${method}: ${xhr.status} ${xhr.statusText}`));
+const getData = async () => {
+  try {
+    const response = await fetch(`${API_URL}/data`);
+    if (!response.ok) {
+      throw new Error('Ошибка при загрузке данных');
+    }
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Не удалось загрузить данные: ${error.message}`);
+  }
+};
+const getPhotos = async () => {
+  const photos = await getData(API_URL);
+  return photos;
+};
+const sendData = async (data) => {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: data,
     });
-
-    xhr.addEventListener('error', () => reject(new Error(`Ошибка ${method}: соединение не установлено`)));
-    xhr.addEventListener('timeout', () => reject(new Error(`Ошибка ${method}: таймаут ${REQUEST_TIMEOUT}мс`)));
-
-    xhr.open(method, url);
-    xhr.send(body);
-  });
-
-const getPhotos = () => {
-  const baseUrl = getBaseUrl();
-  return request('GET', buildUrl(baseUrl, '/data'));
+    if (!response.ok) {
+      throw new Error('Ошибка при отправке данных');
+    }
+  } catch (error) {
+    throw new Error(`Не удалось отправить данные: ${error.message}`);
+  }
 };
 
-const sendFormData = (formData) => {
-  const baseUrl = getBaseUrl();
-  return request('POST', `${baseUrl.replace(/\/$/, '')}/`, formData);
-};
-export { getPhotos, sendFormData }
+export { getData, sendData, getPhotos };
