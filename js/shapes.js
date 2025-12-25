@@ -1,48 +1,42 @@
-const SCALE_MIN = 25;
-const SCALE_MAX = 100;
-const SCALE_DEFAULT = 100;
-const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const STEP = 25;
 
-const imagePreview = document.querySelector('.img-upload__preview img');
-const scaleSize = document.querySelector('.img-upload__scale');
-const scaleSizeControl = scaleSize.querySelector('.scale__control--value');
-const smallerButton = scaleSize.querySelector('.scale__control--smaller');
-const biggerButton = scaleSize.querySelector('.scale__control--bigger');
-let currentScale = SCALE_DEFAULT;
+const smallerButton = document.querySelector('.scale__control--smaller');
+const biggerButton = document.querySelector('.scale__control--bigger');
+const scaleValueField = document.querySelector('.scale__control--value');
+const previewImage = document.querySelector('.img-upload__preview img');
 
-const setNewScale = (value) => {
-  imagePreview.style.transform = `scale(${value / 100})`;
-  scaleSizeControl.value = `${value}%`;
-};
+let currentScale = MAX_SCALE;
 
+function applyScale() {
+  scaleValueField.value = `${currentScale}%`;
+  previewImage.style.transform = `scale(${currentScale / 100})`;
+}
 
-const onSmallerButtonClick = () => {
-  currentScale = parseInt(scaleSizeControl.value, 10);
-  let newScale = currentScale - SCALE_STEP;
-  if (newScale < SCALE_MIN) {
-    newScale = SCALE_MIN;
+function onSmallerClick() {
+  if (currentScale > MIN_SCALE) {
+    currentScale -= STEP;
+    applyScale();
   }
-  setNewScale(newScale);
-};
+}
 
-const onBiggerButtonClick = () => {
-  currentScale = parseInt(scaleSizeControl.value, 10);
-  let newScale = currentScale + SCALE_STEP;
-  if (newScale > SCALE_MAX) {
-    newScale = SCALE_MAX;
+function onBiggerClick() {
+  if (currentScale < MAX_SCALE) {
+    currentScale += STEP;
+    applyScale();
   }
-  setNewScale(newScale);
-};
+}
 
-const initImageScale = () => {
-  smallerButton.addEventListener('click', onSmallerButtonClick);
-  biggerButton.addEventListener('click', onBiggerButtonClick);
-};
+function initScale() {
+  applyScale();
+  smallerButton.addEventListener('click', onSmallerClick);
+  biggerButton.addEventListener('click', onBiggerClick);
+}
 
-const scaleReset = () => {
-  setNewScale(SCALE_DEFAULT);
-  smallerButton.removeEventListener('click', initImageScale(onSmallerButtonClick));
-  biggerButton.removeEventListener('click', initImageScale(onBiggerButtonClick));
-};
+function resetScale() {
+  currentScale = MAX_SCALE;
+  applyScale();
+}
 
-export { initImageScale, scaleReset };
+export { initScale, resetScale };
