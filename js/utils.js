@@ -1,25 +1,19 @@
-const DEFAULT_DEBOUNCE_DELAY = 500;
-const DATA_ERROR_CLASS = 'data-error';
-const DATA_ERROR_TEXT = 'Не удалось загрузить данные. Попробуйте обновить страницу.';
+const DEBOUNCE_DELAY = 500;
 
-const debounce = (callback, timeoutDelay = DEFAULT_DEBOUNCE_DELAY) => {
+const getRandomNumber = (min, max) => {
+  const minValue = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
+  const maxValue = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
+  return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+};
+
+const getRandomFromArray = (items) => items[getRandomNumber(0, items.length - 1)];
+
+const debounce = (callback, delay = DEBOUNCE_DELAY) => {
   let timeoutId;
-
-  return (...rest) => {
+  return (...args) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback(...rest), timeoutDelay);
+    timeoutId = setTimeout(() => callback(...args), delay);
   };
 };
 
-const showDataError = () => {
-  if (document.querySelector(`.${DATA_ERROR_CLASS}`)) {
-    return;
-  }
-
-  const errorElement = document.createElement('div');
-  errorElement.classList.add(DATA_ERROR_CLASS);
-  errorElement.textContent = DATA_ERROR_TEXT;
-  document.body.append(errorElement);
-};
-
-export { showDataError, debounce };
+export { getRandomFromArray, getRandomNumber, debounce};
