@@ -1,4 +1,4 @@
-import { openBigPicture } from './bigpicture.js';
+import { openBigPicture } from './bigpictures.js';
 import { getPhotos } from './api.js';
 import { initFilter } from './filters.js';
 
