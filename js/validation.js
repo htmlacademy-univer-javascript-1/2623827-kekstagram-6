@@ -8,7 +8,7 @@ const ErrorMessages = {
   TAGS_EXCEEDED: 'Не более 5 хэштегов',
   TAGS_DUPLICATED: 'Хэштеги не должны повторяться',
   INVALID_TAG: 'Неверный формат хэштега',
-  COMMENT_TOO_LONG: 'Комментарий не должен быть длиннее 140 символов',
+  COMMENT_TOO_LONG: 'Максимальная длина - 140 символов',
 };
 
 const elements = {

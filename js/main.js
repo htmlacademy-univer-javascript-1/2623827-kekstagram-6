@@ -16,5 +16,5 @@ getData()
     initFilter(photos);
   })
   .catch(() => {
-    throw new Error('Ошибка загрузки фотографий');
+    throw new Error('Не удалось загрузить фото');
   });
