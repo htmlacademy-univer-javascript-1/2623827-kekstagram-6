@@ -1,6 +1,5 @@
 
-import { isEscapeKey } from './util.js';
-import { scaleReset } from './scale.js';
+import { scaleReset } from '.shapes.js';
 import { resetEffects, initSlider, resetSlider } from './effects.js';
 
 const COMMENT_MAXLENGTH = 140;
@@ -67,6 +66,37 @@ const openForm = () => {
     initSlider();
   });
 };
+function resetScale() {
+  const scaleControl = document.querySelector('.scale__control--value');
+  const imagePreview = document.querySelector('.img-upload__preview img');
+
+  if (scaleControl) {
+    scaleControl.value = '100%';
+  }
+  if (imagePreview) {
+    imagePreview.style.transform = 'scale(1)';
+  }
+}
+
+function resetEffects() {
+  const effectRadios = document.querySelectorAll('.effects__radio');
+  const imagePreview = document.querySelector('.img-upload__preview img');
+  const effectLevel = document.querySelector('.effect-level');
+
+  if (imagePreview) {
+    imagePreview.className = '';
+    imagePreview.style.filter = '';
+  }
+  if (effectLevel) {
+    effectLevel.classList.add('hidden');
+  }
+
+  effectRadios.forEach((input) => {
+    if (input.value === 'none') {
+      input.checked = true;
+    }
+  });
+}
 
 function closeForm() {
   uploadFormElement.reset();
@@ -97,3 +127,4 @@ uploadHashtagElement.addEventListener('keydown', () => {
     pristine.reset();
   }
 });
+export { resetScale, resetEffects };
